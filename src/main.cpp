@@ -18,47 +18,30 @@ always turn away from the red wire, towards the red wire.
 ***********************************************************************/
 //const int driverName[3] = [enable, forward, backward]
 
-  const int leftDriverPin[3] = {11 , 6, 7};
-  const int rightDriverPin[3] = {0 , 0, 0};
-  const int scooperPin[3] = {0 , 0, 0};
-  const int autoDoorPin[3] = {0 , 0, 0};
+const int leftDriverPin[3] = {7 , 22, 23};
+const int rightDriverPin[3] = {6 , 24, 25};
+const int sweeperPin[3] = {5 , 26, 27};
 
+const int servoPin = 9;
+const int leftTrig = 46;
+const int leftEcho = 47;
+const int rightTrig = 48;
+const int rightEcho = 49;
+const int tiltPin = 50;
+const int powerPin = 53;
+const int modePin = 52;
 
 //class creation
-Servo rightServo;
-Servo leftServo;
+Servo riserServo;
 
+int powerState = 0;
+int modeState = 0;
+int tiltState = 0;
 
 //format: Motor myMotor(enable, forwardPin, backwardPin)
 Motor leftMotor(leftDriverPin[0], leftDriverPin[1], leftDriverPin[2]);
-Motor rightMotor(3, 4, 5);
-Motor scooper(0, 0, 0);
-
-//Pin z
-
-const int rightServoPin = 10;
-const int leftServoPin = 9;
-  //structurez
-
-
-
-  /*old way
-  const int leftDriver_enable= 0;
-  const int leftDriver_logicBlack = 0;
-  const int leftDriver_logicRed = 0;
-
-  const int rightDriver_enable = 0;
-  const int rightDriver_logicBlack = 0;
-  const int rightDriver_logicRed = 0;
-
-  const int scooper_enable = 0;
-  const int scooper_logicBlack = 0;
-  const int scooper_logicRed = 0;
-
-  const int autoDoor_enable = 0;
-  const int autoDoor_logicBlack = 0;
-  const int autoDoor_logicRed = 0;
-  */
+Motor rightMotor(rightDriverPin[0], rightDriverPin[1], rightDriverPin[3]);
+Motor sweeper(sweeperPin[1], sweeperPin[2], sweeperPin[3]);
 
 
   //optimally, input is between -10, 10 each
@@ -75,17 +58,14 @@ SETUP AND LOOP
 
 ************************************************************************/
 void setup() {
-  //pin attachment
-  /*
-    for(int i = 0; i <3; i++){
-      pinMode(leftDriverPin[i], OUTPUT);
-      pinMode(rightDriverPin[i], OUTPUT);
-      pinMode(scooperPin[i], OUTPUT);
-      pinMode(autoDoorPin[i], OUTPUT);
-    }
-  */
-  rightServo.attach(rightServoPin);
-  leftServo.attach(leftServoPin);
+  
+  Servo.attach(servoPin);
+  
+  pinMode(leftTrig, OUTPUT);
+  pinMode(rightTrig, OUTPUT);
+  pinMode(leftEcho, INPUT);
+  pinMode(rightEcho, INPUT);
+  
 
   Serial.begin(9600);
 }
